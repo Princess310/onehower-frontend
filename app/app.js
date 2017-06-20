@@ -26,6 +26,9 @@ import { makeSelectLocationState } from 'containers/App/selectors';
 // Import Language Provider
 import LanguageProvider from 'containers/LanguageProvider';
 
+// Import fast click
+import FastClick from 'assets/lib/fastclick';
+
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./favicon.ico';
@@ -43,6 +46,9 @@ import './global-styles';
 
 // Import root routes
 import createRoutes from './routes';
+
+// inject fast click
+FastClick.attach(document.body);
 
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router

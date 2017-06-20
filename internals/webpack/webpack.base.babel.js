@@ -27,8 +27,8 @@ module.exports = (options) => ({
       include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
     }, {
-      test: /\.(eot|svg|ttf|woff|woff2)$/,
-      loader: 'file-loader',
+      test: /\.svg$/,
+      loader: 'svg-sprite-loader',
     }, {
       test: /\.(jpg|png|gif)$/,
       loaders: [

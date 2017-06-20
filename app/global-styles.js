@@ -6,6 +6,9 @@ injectGlobal`
   body {
     height: 100%;
     width: 100%;
+    user-select: none;
+    font-size: .32rem;
+    background-color: #f5f5f9;
   }
 
   body {
@@ -27,4 +30,28 @@ injectGlobal`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
+  .grid-system{
+      z-index:9999;
+      .grid-canvas{
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 9998;
+        display: none;
+      }
+      .toggle-grid{
+        position: absolute;
+        right: 15px;
+        bottom: 12px;
+        top:auto;
+        width:20px;
+        height:20px;
+        font-size:20px;
+        opacity: .2;
+        z-index: 9999;
+      }
+    }
 `;
