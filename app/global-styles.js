@@ -7,8 +7,6 @@ injectGlobal`
     height: 100%;
     width: 100%;
     user-select: none;
-    font-size: .32rem;
-    background-color: #f5f5f9;
   }
 
   body {
