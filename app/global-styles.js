@@ -29,6 +29,10 @@ injectGlobal`
     line-height: 1.5em;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   .grid-system{
       z-index:9999;
       .grid-canvas{

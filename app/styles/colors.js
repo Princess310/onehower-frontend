@@ -1,5 +1,6 @@
 const pallete = {
-  theme: 'rgb(0, 188, 212)',
+  primary: '#00BCD4',
+  secondary: '#F48FB1',
   white: '#ffffff',
   black: '#000000',
   red: '#ED2302',

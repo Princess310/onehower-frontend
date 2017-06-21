@@ -1,9 +1,9 @@
 // import React from 'react';
 // import { shallow } from 'enzyme';
 
-// import MenuHeader from '../index';
+// import Header from '../index';
 
-describe('<MenuHeader />', () => {
+describe('<Header />', () => {
   it('Expect to have unit tests specified', () => {
     expect(true).toEqual(false);
   });

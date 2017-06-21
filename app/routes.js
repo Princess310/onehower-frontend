@@ -34,6 +34,66 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: 'daily',
+      name: 'dailyPage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/DailyPage/reducer'),
+          import('containers/DailyPage/sagas'),
+          import('containers/DailyPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('dailyPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: 'life',
+      name: 'lifePage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/LifePage/reducer'),
+          import('containers/LifePage/sagas'),
+          import('containers/LifePage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('lifePage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: 'comment',
+      name: 'commentPage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/CommentPage/reducer'),
+          import('containers/CommentPage/sagas'),
+          import('containers/CommentPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('commentPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

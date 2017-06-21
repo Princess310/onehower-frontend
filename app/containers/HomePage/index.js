@@ -11,34 +11,26 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import MenuHeader from 'components/MenuHeader';
-import UserCard from 'containers/UserCard';
-
-import Drawer from 'material-ui/Drawer';
-
+import Helmet from 'react-helmet';
+import Header from 'components/Header';
 import messages from './messages';
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-  state = {
-    showDrawer: false,
-  }
-
-  toggleDrawer = () => {
-    this.setState({
-      showDrawer: !this.state.showDrawer,
-    });
-  }
+  
 
   render() {
     return (
       <div>
-        <MenuHeader onMenuClick={this.toggleDrawer} />
-        <Drawer
-          docked={false}
-          open={this.state.showDrawer}
-          onRequestChange={this.toggleDrawer}>
-          <UserCard />
-        </Drawer>
+        <Helmet
+          title="OneHower"
+          meta={[
+            { name: 'description', content: 'onehower - 首页' },
+          ]}
+        />
+        <Header />
+        <div>
+          Home Page
+        </div>
       </div>
     );
   }
