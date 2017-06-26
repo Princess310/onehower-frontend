@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-const FlexRowCenter = styled.div`
+const FlexCenterWrap = styled.div`
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
 `;
 
-export default FlexRowCenter;
+export default FlexCenterWrap;

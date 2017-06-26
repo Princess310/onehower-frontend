@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import Header from 'components/Header';
-
+import Footer from 'components/Footer';
 import makeSelectLifePage from './selectors';
 import messages from './messages';
 
@@ -27,6 +27,7 @@ export class LifePage extends React.PureComponent { // eslint-disable-line react
         />
         <Header />
         <FormattedMessage {...messages.header} />
+        <Footer />
       </div>
     );
   }

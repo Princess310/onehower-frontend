@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Icon from 'components/Icon';
 import Gtx from 'utils/gtx';
 
 class Grid extends React.PureComponent {
@@ -12,7 +13,7 @@ class Grid extends React.PureComponent {
 
 		let unitWidth = 8;
 		let unitHeight = 8;
-		let gtx = Gtx(this.canvas);
+		let gtx = new Gtx(this.canvas);
 
 		gtx.fitParent();
 
@@ -42,7 +43,7 @@ class Grid extends React.PureComponent {
 				<div className="grid-canvas" style={{display: "none"}} ref={r => this.system = r}>
 					<canvas ref={r => this.canvas = r} onClick={this.destoryGrid}></canvas>
 				</div>
-				<i className="toggle-grid mdi mdi-grid" onClick={this.drawGrid}></i>
+				<Icon className="toggle-grid" type={require('icons/actions/grid.svg')} onClick={this.drawGrid} />
 			</div>
 		);
 	}

@@ -31,6 +31,13 @@ injectGlobal`
 
   a {
     text-decoration: none;
+    color: inherit;
+  }
+
+  .ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .grid-system{

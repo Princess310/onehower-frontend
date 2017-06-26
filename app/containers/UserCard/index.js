@@ -18,7 +18,7 @@ import FlexColumn from 'components/FlexColumn';
 import Icon from 'components/Icon';
 
 import Avatar from 'material-ui/Avatar';
-import {List, ListItem} from 'material-ui/List';
+import { List, ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Popover from 'material-ui/Popover';
 

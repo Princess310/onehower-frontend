@@ -11,6 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import Header from 'components/Header';
+import Footer from 'components/Footer';
 
 import makeSelectCommentPage from './selectors';
 import messages from './messages';
@@ -27,6 +28,7 @@ export class CommentPage extends React.PureComponent { // eslint-disable-line re
         />
         <Header />
         <FormattedMessage {...messages.header} />
+        <Footer />
       </div>
     );
   }

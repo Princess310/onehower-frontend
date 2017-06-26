@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import Header from 'components/Header';
-
+import Footer from 'components/Footer';
 import makeSelectDailyPage from './selectors';
 import messages from './messages';
 
@@ -27,6 +27,7 @@ export class DailyPage extends React.PureComponent { // eslint-disable-line reac
         />
         <Header />
         <FormattedMessage {...messages.header} />
+        <Footer />
       </div>
     );
   }

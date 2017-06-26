@@ -25,7 +25,14 @@ class Header extends React.PureComponent { // eslint-disable-line react/prefer-s
 
   render() {
     return (
-      <div>
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: '64px',
+        zIndex: 100,
+      }}>
         <MenuHeader onMenuClick={this.toggleDrawer} />
         <Drawer
           docked={false}

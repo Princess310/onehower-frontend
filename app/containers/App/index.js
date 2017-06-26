@@ -13,6 +13,7 @@
 
 import React from 'react';
 import Grid from 'components/Grid';
+import Header from 'components/Header';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
