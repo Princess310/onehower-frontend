@@ -14,12 +14,19 @@ const selectDailyPageDomain = () => (state) => state.get('dailyPage');
  * Default selector used by DailyPage
  */
 
-const makeSelectDailyPage = () => createSelector(
+const makeSelectDailyList= () => createSelector(
   selectDailyPageDomain(),
-  (substate) => substate.toJS()
+  (substate) => {
+    const info = substate.get('moment');
+    return {
+      list: info.get('list'),
+      page: info.get('page'),
+      hasNext: info.get('hasNext'),
+      loading: info.get('loading'),
+    };
+  },
 );
 
-export default makeSelectDailyPage;
 export {
-  selectDailyPageDomain,
+  makeSelectDailyList,
 };

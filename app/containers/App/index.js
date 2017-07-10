@@ -13,7 +13,7 @@
 
 import React from 'react';
 import Grid from 'components/Grid';
-import Header from 'components/Header';
+import Gallery from 'components/Gallery';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -29,6 +29,7 @@ export default class App extends React.PureComponent { // eslint-disable-line re
       <MuiThemeProvider>
         <div>
           {React.Children.toArray(this.props.children)}
+          <Gallery />
           <Grid />
         </div>
       </MuiThemeProvider>

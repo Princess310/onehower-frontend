@@ -5,6 +5,10 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const svgDirs = [
+  path.resolve(__dirname, '../../app/icons'),  //svg 存放目录
+];
+
 module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
@@ -29,6 +33,11 @@ module.exports = (options) => ({
     }, {
       test: /\.svg$/,
       loader: 'svg-sprite-loader',
+      include: svgDirs,
+    }, {
+      test: /\.(eot|svg|ttf|woff|woff2)$/,
+      loader: 'file-loader',
+      exclude: svgDirs,
     }, {
       test: /\.(jpg|png|gif)$/,
       loaders: [

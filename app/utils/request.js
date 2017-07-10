@@ -1,8 +1,7 @@
 import 'whatwg-fetch';
-import { Toast } from 'antd-mobile';
 import { browserHistory } from 'react-router';
 
-export const API_ROOT = 'http://localhost:8080/';
+export const API_ROOT = 'http://api.onehower.com/';
 export const WEB_ROOT = 'http://localhost:3000/';
 
 const fetchDao = {
@@ -41,7 +40,7 @@ const fetchDao = {
       arr.push(`${key}=${params[key]}`);
     });
 
-    return `& + ${arr.join('&')}`;
+    return `&${arr.join('&')}`;
   },
 
   request(method, u, params, file) {
@@ -80,24 +79,12 @@ const fetchDao = {
       }
     }
 
-    Toast.loading('加载中...', 10);
     return new Promise((resolve, reject) => {
       fetch(url, config)
       .then(self.checkStatus)
       .then(self.parseJSON)
       .then((data) => {
-        // remove the toast after responded
-        Toast.hide();
-
-        if (data && data.code !== 200) {
-          if (data.code === 603) {
-            browserHistory.push('/preview');
-          } else {
-            Toast.info(data.message, 2);
-          }
-        } else {
-          resolve(data);
-        }
+        resolve(data);
       }).catch((error) => {
         reject(error);
       });

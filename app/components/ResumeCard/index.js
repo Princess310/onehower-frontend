@@ -7,6 +7,7 @@
 import React from 'react';
 // import styled from 'styled-components';
 import Media from 'react-media';
+
 import FlexRowCenter from 'components/FlexRowCenter';
 import FlexCenterWrap from 'components/FlexCenterWrap';
 import Resume from './Resume';

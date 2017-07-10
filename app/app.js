@@ -16,6 +16,9 @@ import { applyRouterMiddleware, Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { useScroll } from 'react-router-scroll';
 import 'sanitize.css/sanitize.css';
+// import photo swipe css
+import '!!style-loader!css-loader!photoswipe/dist/photoswipe.css';
+import '!!style-loader!css-loader!photoswipe/dist/default-skin/default-skin.css';
 
 // Import root app
 import App from 'containers/App';
