@@ -15,6 +15,8 @@ import PhotoSwipeUIdefault from 'photoswipe/dist/photoswipe-ui-default';
 
 import { Card, CardHeader } from 'material-ui/Card';
 
+import AudioPlayer from 'components/AudioPlayer';
+
 const PicWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -132,7 +134,19 @@ class MomentCard extends React.PureComponent { // eslint-disable-line react/pref
             paddingRight: 0,
           }}
         />
-        {pics.length > 0 && <PicWrapper>{picsView}</PicWrapper>}
+        <div style={{ position: 'relative' }}>
+          {pics.length > 0 && <PicWrapper>{picsView}</PicWrapper>}
+          {moment.type === 'audio' &&
+            <AudioPlayer
+              url={moment.audio}
+              isPhone={isPhone}
+              style={{
+                marginLeft: '16px',
+                marginRight: '16px',
+                marginBottom: '16px',
+              }}
+            />}
+        </div>
       </Card>
     );
   }
