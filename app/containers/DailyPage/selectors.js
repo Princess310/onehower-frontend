@@ -14,7 +14,7 @@ const selectDailyPageDomain = () => (state) => state.get('dailyPage');
  * Default selector used by DailyPage
  */
 
-const makeSelectDailyList= () => createSelector(
+const makeSelectDailyList = () => createSelector(
   selectDailyPageDomain(),
   (substate) => {
     const info = substate.get('moment');

@@ -94,6 +94,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: 'momentDetail',
+      name: 'MomentDetail',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/MomentDetail/reducer'),
+          import('containers/MomentDetail/sagas'),
+          import('containers/MomentDetail'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('momentDetail', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

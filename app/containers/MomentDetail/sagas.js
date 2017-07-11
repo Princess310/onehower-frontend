@@ -3,25 +3,21 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import request from 'utils/request';
 
 import {
-  FETCH_MOMENT_LIST,
+  FETCH_MOMENT_DETAIL,
 } from './constants';
 
 import {
-  loadMomentList,
-  loadMomentListLoading,
+  loadMomentDetail,
 } from './actions';
 
-export function* fetchMomentList(action) {
+export function* fetchMomentDetail(action) {
   try {
-    const { page } = action.payload;
+    const { id } = action.payload;
 
-    if (page > 1) {
-      yield put(loadMomentListLoading(true));
-    }
-    const res = yield request.doGet('moment/list');
+    const res = yield request.doGet(`moment/${id}`);
 
     // just response list for now
-    yield put(loadMomentList(res));
+    yield put(loadMomentDetail(res));
   } catch (err) {
     // console.log(err);
   }
@@ -29,11 +25,11 @@ export function* fetchMomentList(action) {
 
 // Individual exports for testing
 export function* defaultSaga() {
-  const watcherList = yield takeLatest(FETCH_MOMENT_LIST, fetchMomentList);
+  const watchDetail = yield takeLatest(FETCH_MOMENT_DETAIL, fetchMomentDetail);
 
   // Suspend execution until location changes
   yield take(LOCATION_CHANGE);
-  yield cancel(watcherList);
+  yield cancel(watchDetail);
 }
 
 // All sagas to be loaded

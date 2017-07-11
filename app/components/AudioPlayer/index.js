@@ -7,8 +7,6 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import Icon from 'components/Icon';
-
 const Container = styled.div`
   position: absolute;
   top: 0;
@@ -30,11 +28,8 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background-color: rgba(0, 0, 0, 0.1);
-
-  &:hover {
-    cursor: pointer;
-  }
 `;
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
@@ -44,76 +39,17 @@ class AudioPlayer extends React.PureComponent { // eslint-disable-line react/pre
   constructor(props) {
     super(props);
 
-    this.state = {
-      status: -1, // loading source: -1, stop: 0, playing: 1
-    };
-    this.source = null; //the audio source
     this.animationId = null;
-    this.forceStop = false;
-    this.arraybuffer = null;
-
-    try {
-      this.audioContext = new AudioContext();
-    } catch (e) {
-      console.log('!妳的浏览器不支持AudioContext:(');
-      console.log(e);
-    }
   }
 
   componentDidMount() {
-    const self = this;
-    const { url } = this.props;
+    const audio = this.audio;
+    const ctx = new AudioContext();
+    const audioSrc = ctx.createMediaElementSource(audio);
+    const analyser = ctx.createAnalyser();
 
-    const request = new XMLHttpRequest(); //建立一个请求
-    request.open('GET', url, true); //配置好请求类型，文件路径等
-    request.responseType = 'arraybuffer'; //配置数据返回类型
-    // 一旦获取完成，对音频进行进一步操作，比如解码
-    request.onload = function() {
-      self.arraybuffer = request.response;
-
-      self.setState({
-        status: 0,
-      });
-    }
-
-    request.send();
-  }
-
-  _visualize = (audioContext, buffer) => {
-    const audioBufferSouceNode = audioContext.createBufferSource();
-    const analyser = audioContext.createAnalyser();
-
-    //connect the source to the analyser
-    audioBufferSouceNode.connect(analyser);
-    //connect the analyser to the destination(the speaker), or we won't hear the sound
-    analyser.connect(audioContext.destination);
-    //then assign the buffer to the buffer source node
-    audioBufferSouceNode.buffer = buffer;
-    //play the source
-    if (!audioBufferSouceNode.start) {
-      audioBufferSouceNode.start = audioBufferSouceNode.noteOn //in old browsers use noteOn method
-      audioBufferSouceNode.stop = audioBufferSouceNode.noteOff //in old browsers use noteOff method
-    };
-
-    //stop the previous sound if any
-    if (this.animationId !== null) {
-      cancelAnimationFrame(this.animationId);
-    }
-
-    if (this.source !== null) {
-      this.source.stop(0);
-    }
-
-    audioBufferSouceNode.start(0);
-    // 设置播放状态
-    this.setState({
-      status: 1,
-    });
-    this.source = audioBufferSouceNode;
-    audioBufferSouceNode.onended = () => {
-      this._audioEnd();
-    }
-
+    audioSrc.connect(analyser);
+    analyser.connect(ctx.destination);
     this._drawSpectrum(analyser);
   }
 
@@ -141,21 +77,6 @@ class AudioPlayer extends React.PureComponent { // eslint-disable-line react/pre
       const array = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
 
-      if (self.state.status === 0) {
-        //fix when some sounds end the value still not back to zero
-        for (var i = array.length - 1; i >= 0; i--) {
-          array[i] = 0;
-        };
-        let allCapsReachBottom = true;
-        for (var i = capYPositionArray.length - 1; i >= 0; i--) {
-          allCapsReachBottom = allCapsReachBottom && (capYPositionArray[i] === 0);
-        };
-        if (allCapsReachBottom) {
-          cancelAnimationFrame(self.animationId); //since the sound is stoped and animation finished, stop the requestAnimation to prevent potential memory leak,THIS IS VERY IMPORTANT!
-          return;
-        };
-      }
-
       const step = Math.round(array.length / meterNum); //sample limited data from the total array
       ctx.clearRect(0, 0, cwidth, cheight);
 
@@ -182,56 +103,14 @@ class AudioPlayer extends React.PureComponent { // eslint-disable-line react/pre
     this.animationId = requestAnimationFrame(drawMeter);
   }
 
-  _audioEnd = () => {
-    if (this.forceStop) {
-      this.forceStop = false;
-      this.setState({
-        status: 1,
-      });
-      return;
-    };
-
-    this.setState({
-      status: 0,
-    });
-
-    const canvas = this.canvas;
-    const ctx = canvas.getContext('2d');
-    const cwidth = canvas.width;
-    const cheight = canvas.height - 2;
-    ctx.clearRect(0, 0, cwidth, cheight);
-  }
-
-  handlePlay = () => {
-    const self = this;
-
-    if (this.state.status === -1) {
-      return;
-    }
-
-    const arraybuffer = this.arraybuffer;
-    const audioContext = this.audioContext;
-    audioContext.decodeAudioData(arraybuffer, function(buffer) { //解码成功则调用此函数，参数buffer为解码后得到的结果
-      self._visualize(audioContext, buffer); //调用_visualize进行下一步处理，此方法在后面定义并实现
-    }, function(e) { //这个是解码失败会调用的函数
-      console.log("文件解码失败:(");
-    });
-  }
-
   render() {
-    const { style, isPhone } = this.props;
-    const { status } = this.state;
+    const { style, isPhone, url } = this.props;
 
     return (
-      <Container style={style} onClick={this.handlePlay}>
+      <Container style={style}>
         <canvas ref={r => this.canvas = r} width={ isPhone ? 300 : 800} height={300}/>
         <Wrapper>
-          {status === -1 && 
-            <div>Loading...</div>
-          }
-          {status === 0 &&
-            <Icon type={require('icons/actions/播放.svg')} color="#fff" size="64px" />
-          }
+          <audio src={url} ref={r => this.audio = r} crossOrigin="anonymous" controls>audio element not supported</audio>
         </Wrapper>
       </Container>
     );

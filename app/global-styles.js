@@ -40,6 +40,11 @@ injectGlobal`
     text-overflow: ellipsis;
   }
 
+  .video-js {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   .grid-system{
       z-index:9999;
       .grid-canvas{

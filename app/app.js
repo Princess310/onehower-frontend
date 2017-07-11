@@ -19,6 +19,7 @@ import 'sanitize.css/sanitize.css';
 // import photo swipe css
 import '!!style-loader!css-loader!photoswipe/dist/photoswipe.css';
 import '!!style-loader!css-loader!photoswipe/dist/default-skin/default-skin.css';
+import '!!style-loader!css-loader!video.js/dist/video-js.css';
 
 // Import root app
 import App from 'containers/App';

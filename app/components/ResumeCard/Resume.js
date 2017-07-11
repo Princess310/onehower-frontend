@@ -34,7 +34,7 @@ class Resume extends React.PureComponent { // eslint-disable-line react/prefer-s
             >
               <img src={resumeImg} alt="" />
             </CardMedia>
-            <CardTitle title="It's me" subtitle="热爱Web开发，乐于学习和分享代码的世界" />
+            <CardTitle title="It's me" subtitle="热爱Web开发，乐于学习和分享代码" />
           </Card>
         )}
       </Media>

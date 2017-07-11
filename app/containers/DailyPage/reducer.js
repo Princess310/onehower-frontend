@@ -17,6 +17,7 @@ const initialState = fromJS({
     loading: false,
     page: 1,
   },
+  detail: false,
 });
 
 function dailyPageReducer(state = initialState, action) {

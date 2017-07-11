@@ -7,15 +7,18 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 import Media from 'react-media';
+import { browserHistory } from 'react-router';
 import { formatBackDate } from 'utils/date';
 import FlexRowCenter from 'components/FlexRowCenter';
 
 import PhotoSwipe from 'photoswipe';
 import PhotoSwipeUIdefault from 'photoswipe/dist/photoswipe-ui-default';
 
-import { Card, CardHeader } from 'material-ui/Card';
+import { Card, CardHeader, CardActions } from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
 
 import AudioPlayer from 'components/AudioPlayer';
+import ViedoPlayer from 'components/VideoPlayer';
 
 const PicWrapper = styled.div`
   display: flex;
@@ -146,6 +149,32 @@ class MomentCard extends React.PureComponent { // eslint-disable-line react/pref
                 marginBottom: '16px',
               }}
             />}
+          {moment.type === 'vedio' &&
+            <ViedoPlayer
+              url={moment.vedio}
+              pic={pics[0]}
+              isPhone={isPhone}
+              style={{
+                marginLeft: '16px',
+                marginRight: '16px',
+                marginBottom: '16px',
+              }}
+            />
+          }
+        </div>
+        <div>
+          {moment.type === 'article' &&
+            <CardActions>
+              <FlatButton label="查看详情" onTouchTap={() => {
+                browserHistory.push({
+                  pathname: '/momentDetail',
+                  query: {
+                    id: moment.id,
+                  },
+                });
+              }}/>
+            </CardActions>
+          }
         </div>
       </Card>
     );
