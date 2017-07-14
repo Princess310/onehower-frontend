@@ -9,7 +9,6 @@ import styled from 'styled-components';
 
 import pallete from 'styles/colors';
 import utils from 'utils/utils';
-import { emojify } from 'react-emojione';
 
 import FlexRow from 'components/FlexRow';
 import Icon from 'components/Icon';
