@@ -34,6 +34,11 @@ injectGlobal`
     color: inherit;
   }
 
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
   .ellipsis {
     white-space: nowrap;
     overflow: hidden;
@@ -43,6 +48,22 @@ injectGlobal`
   .video-js {
     width: 100% !important;
     height: 100% !important;
+  }
+  
+
+  .chat-editor {
+    height: 104px;
+    width: 100%;
+    padding: 15px;
+    overflow-y: scroll;
+  }
+
+  .chat-editor:focus {
+    outline: transparent;
+  }
+
+  .chat-editor:hover {
+    cursor: text;
   }
 
   .grid-system{

@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { browserHistory } from 'react-router';
 
-export const API_ROOT = 'http://api.onehower.com/';
+export const API_ROOT = 'https://api.onehower.com/';
 export const WEB_ROOT = 'http://localhost:3000/';
 
 const fetchDao = {

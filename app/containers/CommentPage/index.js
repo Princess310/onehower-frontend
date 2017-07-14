@@ -9,9 +9,13 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
+import Media from 'react-media';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import AppContent from 'components/AppContent';
+import ChatTool from 'components/ChatTool';
+import FlexRowCenter from 'components/FlexRowCenter';
 
 import makeSelectCommentPage from './selectors';
 import messages from './messages';
@@ -27,7 +31,17 @@ export class CommentPage extends React.PureComponent { // eslint-disable-line re
           ]}
         />
         <Header />
-        <FormattedMessage {...messages.header} />
+        <AppContent>
+           <Media query="(max-width: 928px)">
+            {matches => (
+              <FlexRowCenter>
+                <div style={ matches ? { width: '100%', padding: '8px' } : { width: '960px', padding: '8px' }}>
+                  <ChatTool/>
+                </div>
+              </FlexRowCenter>
+            )}
+          </Media>
+        </AppContent>
         <Footer />
       </div>
     );

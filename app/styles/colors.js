@@ -5,6 +5,8 @@ const pallete = {
   black: '#000000',
   red: '#ED2302',
   disable: '#dadee0',
+  grey: '#9399ab',
+  border: '#f0f0f0',
 };
 
 export default pallete;
