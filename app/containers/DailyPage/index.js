@@ -39,6 +39,7 @@ export class DailyPage extends React.PureComponent { // eslint-disable-line reac
       getList(startPage);
     }
   }
+
   render() {
     const { moment } = this.props;
     return (

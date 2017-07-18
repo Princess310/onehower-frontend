@@ -22,6 +22,7 @@ function Emoji(props) {
 
 Emoji.propTypes = {
   style: PropTypes.object,
+  name: PropTypes.string,
 };
 
 Emoji.defaultProps = {

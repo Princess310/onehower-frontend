@@ -14,12 +14,19 @@ const selectCommentPageDomain = () => (state) => state.get('commentPage');
  * Default selector used by CommentPage
  */
 
-const makeSelectCommentPage = () => createSelector(
+const makeSelectMessageList = () => createSelector(
   selectCommentPageDomain(),
-  (substate) => substate.toJS()
+  (substate) => {
+    const info = substate.get('message');
+    return {
+      list: info.get('list'),
+      page: info.get('page'),
+      hasNext: info.get('hasNext'),
+      loading: info.get('loading'),
+    };
+  },
 );
 
-export default makeSelectCommentPage;
 export {
-  selectCommentPageDomain,
+  makeSelectMessageList,
 };

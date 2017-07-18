@@ -63,19 +63,14 @@ const fetchDao = {
 
     // only post method to add body config
     if ((method !== 'GET') && typeof params !== 'undefined') {
-      const payload = [];
-      Object.keys(params).forEach((key) => {
-        payload.push(`${key}=${params[key]}`);
-      });
-      config.body = payload.join('&');
-
       if (file) {
         const formData = new FormData();
         formData.append('file', params.file);
         config.body = formData;
       } else {
+        config.body =  JSON.stringify(params);
         // change the Content-Type for mime
-        config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+        config.headers['Content-Type'] = 'application/json';
       }
     }
 

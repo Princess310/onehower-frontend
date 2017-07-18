@@ -64,20 +64,14 @@ class ChatTool extends React.PureComponent { // eslint-disable-line react/prefer
     super(props);
 
     this.state = {
-      value: '',
       showEmojiPanel: false,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { clearMessage } = nextProps;
-    if (clearMessage) {
-      this.editor.innerHTML = '';
-    }
-  }
-
   handleSendMessage = () => {
-    
+    const { sendChatMessage } = this.props;
+
+    sendChatMessage && sendChatMessage();
   }
 
   handleFileChange = (e) => {
@@ -118,24 +112,22 @@ class ChatTool extends React.PureComponent { // eslint-disable-line react/prefer
   }
 
   handleSelectEmoji = (name) => {
-    const { value } = this.state;
+    const { value } = this.props;
+    const { onChange } = this.props;
 
-    this.setState({
-      value: `${value}::${name}::`,
-    });
+    onChange(`${value}::${name}::`);
   }
 
   handleChangeValue = (e) => {
     const value = e.target.value;
+    const { onChange } = this.props;
 
-    this.setState({
-      value,
-    });
+    onChange && onChange(value);
   }
 
   render() {
-    const { showEmojiPanel, value } = this.state;
-    const { disabled, style } = this.props;
+    const { showEmojiPanel } = this.state;
+    const { disabled, style, value } = this.props;
 
     return (
       <Container style={style}>
@@ -144,12 +136,12 @@ class ChatTool extends React.PureComponent { // eslint-disable-line react/prefer
             <ActionItem onTouchTap={this.handleShowEmoji}>
               <Icon type={require('icons/actions/tag_faces.svg')} color={showEmojiPanel ? pallete.primary : pallete.grey} />
             </ActionItem>
-            <div style={{ position: 'relative' }}>
+            {/*<div style={{ position: 'relative' }}>
               <FileItem type="file" accept="image/jpg,image/jpeg,image/png,image/gif" onChange={this.handleFileChange} />
               <ActionItem>
                 <Icon type={require('icons/actions/insert_drive_file.svg')} color={pallete.grey} />
               </ActionItem>
-            </div>
+            </div>*/}
           </FlexRow>
           <FlexRow style={{ alignItems: 'center' }}>
             <span style={{ fontSize: '12px', marginRight: '15px' }}>Leave Message ~</span>
@@ -189,6 +181,8 @@ ChatTool.propTypes = {
   clearMessage: PropTypes.bool,
   disabled: PropTypes.bool,
   style: PropTypes.object,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default ChatTool;
