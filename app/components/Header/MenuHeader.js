@@ -42,8 +42,9 @@ function MenuHeader(props) {
               <FlexRow style={{ height: '100%' }}>
                 <Link to="/" activeStyle={activeStyle}><FlatButton label="首页" style={{ color: pallete.white }} /></Link>
                 <Link to="/daily" activeStyle={activeStyle}><FlatButton label="日常动态" style={{ color: pallete.white }} /></Link>
-                <Link to="/life" activeStyle={activeStyle}><FlatButton label="人生足迹" style={{ color: pallete.white }} /></Link>
-                <Link to="/comment" activeStyle={activeStyle}><FlatButton label="留言互动" style={{ color: pallete.white }} /></Link>
+                <Link to="/widgets" activeStyle={activeStyle}><FlatButton label="实验室" style={{ color: pallete.white }} /></Link>
+                {/*<Link to="/life" activeStyle={activeStyle}><FlatButton label="人生足迹" style={{ color: pallete.white }} /></Link>
+                <Link to="/comment" activeStyle={activeStyle}><FlatButton label="留言互动" style={{ color: pallete.white }} /></Link>*/}
               </FlexRow>
             )}
           </Media>

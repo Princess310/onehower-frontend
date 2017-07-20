@@ -50,10 +50,17 @@ class ResumeDesc extends React.PureComponent { // eslint-disable-line react/pref
                 <Icon type={require('icons/logo/qq.svg')} size="20px" />
                 <span style={{ marginRight: '16px' }}>: 837478514</span>
 
-                <a href="tel:18227552785">
+                <a href="tel:18227552785" style={{ marginRight: '16px' }}>
                   <FlexRow>
                     <Icon type={require('icons/logo/iphone.svg')} size="20px" />
                     <span>: 18227552785</span>
+                  </FlexRow>
+                </a>
+
+                <a href="http://blog.onehower.com">
+                  <FlexRow>
+                    <Icon type={require('icons/logo/blog.svg')} size="20px" />
+                    <span>: My Blog</span>
                   </FlexRow>
                 </a>
               </FlexRow>

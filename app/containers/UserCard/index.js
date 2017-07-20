@@ -77,8 +77,9 @@ export class UserCard extends React.PureComponent { // eslint-disable-line react
         <List>
           <Link to="/" activeStyle={activeStyle}><ListItem primaryText="首页" leftIcon={<Icon type={require('icons/menu/home.svg')} />} /></Link>
           <Link to="/daily" activeStyle={activeStyle}><ListItem primaryText="日常动态" leftIcon={<Icon type={require('icons/menu/schedule.svg')} />} /></Link>
-          <Link to="/life" activeStyle={activeStyle}><ListItem primaryText="人生足迹" leftIcon={<Icon type={require('icons/menu/flag.svg')} />} /></Link>
-          <Link to="/comment" activeStyle={activeStyle}><ListItem primaryText="留言互动" leftIcon={<Icon type={require('icons/menu/chat.svg')} />} /></Link>
+          <Link to="/widgets" activeStyle={activeStyle}><ListItem primaryText="实验室" leftIcon={<Icon type={require('icons/menu/widgets.svg')} />} /></Link>
+          {/*<Link to="/life" activeStyle={activeStyle}><ListItem primaryText="人生足迹" leftIcon={<Icon type={require('icons/menu/flag.svg')} />} /></Link>
+          <Link to="/comment" activeStyle={activeStyle}><ListItem primaryText="留言互动" leftIcon={<Icon type={require('icons/menu/chat.svg')} />} /></Link>*/}
         </List>
 
         <Divider />
@@ -87,6 +88,9 @@ export class UserCard extends React.PureComponent { // eslint-disable-line react
           <ListItem primaryText="wanghaojz@gmail.com" leftIcon={<Icon type={require('icons/logo/gmail.svg')} />} />
           <a href="https://github.com/Princess310" target="_blank">
             <ListItem primaryText="Github" leftIcon={<Icon type={require('icons/logo/github.svg')} />} />
+          </a>
+          <a href="http://blog.onehower.com/" target="_blank">
+            <ListItem primaryText="Blog - OneHower" leftIcon={<Icon type={require('icons/logo/blog.svg')} />} />
           </a>
         </List>
 
