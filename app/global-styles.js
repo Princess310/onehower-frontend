@@ -66,27 +66,39 @@ injectGlobal`
     cursor: text;
   }
 
+  .h-cursor-pointer:hover {
+    cursor: pointer;
+  }
+
   .grid-system{
-      z-index:9999;
-      .grid-canvas{
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 9998;
-        display: none;
-      }
-      .toggle-grid{
-        position: absolute;
-        right: 15px;
-        bottom: 12px;
-        top:auto;
-        width:20px;
-        height:20px;
-        font-size:20px;
-        opacity: .2;
-        z-index: 9999;
-      }
+    z-index:9999;
+    .grid-canvas{
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 9998;
+      display: none;
     }
+    .toggle-grid{
+      position: absolute;
+      right: 15px;
+      bottom: 12px;
+      top:auto;
+      width:20px;
+      height:20px;
+      font-size:20px;
+      opacity: .2;
+      z-index: 9999;
+    }
+  }
+
+  ::-webkit-scrollbar{width:2px;height:2px}
+  ::-webkit-scrollbar-button:vertical{display:none}
+  ::-webkit-scrollbar-track:vertical{background-color:transparent;}
+  ::-webkit-scrollbar-track-piece{background-color:transparent;}
+  ::-webkit-scrollbar-thumb:vertical{background-color:#00BCD4;border-radius:2px}
+  ::-webkit-scrollbar-thumb:vertical:hover,
+  ::-webkit-scrollbar-thumb:vertical:active {background-color: #00ACC1}
 `;

@@ -130,6 +130,22 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/musicPlayer',
+      name: 'musicPlayer',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/MusicPlayer'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([component]) => {
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
