@@ -36,6 +36,7 @@ const playerContentWrapperStyle = {
   color: 'rgba(0, 0, 0, 0.54)',
 };
 
+const lyricHeight = 24;
 const timeReg = /\[\d*:\d*((\.|:)\d*)*]/g;
 class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -47,16 +48,26 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
       index: 0,
       // 播放状态
       status: 0, // 0: pause, 1: playing
+      // 播放模式
+      mode: 0, // 0: 按列表顺序播放, 1: 单曲循环, 2: 随机播放
       // 当前播放歌曲
       current: songList.length > 0 ? songList[0] : null,
+      // 当前歌词索引, 目前用时间
+      lyricTime: -1,
       // 歌词
       lyric: {},
       // 歌词缓存
       lyricCache: {},
+      // 歌词面板滑动距离
+      lyricScrollTop: 0,
       // 是否显示歌单面板
       showPanel: false,
       // 是否显示歌词
       showLyric: false,
+      // 音量: 0 - 1
+      volume: 1,
+      // 是否静音
+      muted: false,
     };
   }
 
@@ -176,6 +187,16 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     this.checkStatus();
   }
 
+  handleInit = () => {
+    // 歌词面板滑动距离
+    if (this.lyric) {
+      this.lyric.scrollTop = 0;
+    }
+
+    // 滑块
+    this.progressBar.style.width = 0;
+  }
+
   // 播放
   handlePlay = () => {
     const audio = this.audio;
@@ -192,6 +213,7 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     this.checkStatus();
   }
 
+  // 切换歌曲播放
   changeSongToPlay = (song, i) => {
     const { index, status } = this.state;
     const audio = this.audio;
@@ -209,8 +231,11 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     audio.src = song.audio;
     // 获取歌词
     this.getLyric(song.lyric);
+    // 重置页面样式
+    this.handleInit();
   }
 
+  // 播放下一首
   handlePlayNext = () => {
     const { songList } = this.props;
     const { index } = this.state;
@@ -220,6 +245,7 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     this.changeSongToPlay(song, i);
   }
 
+  // 播放上一首
   handlePlayPrev = () => {
     const { songList } = this.props;
     const { index } = this.state;
@@ -229,9 +255,75 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     this.changeSongToPlay(song, i);
   }
 
+  // 监听audio时间变化
+  handleTimeUpdate = () => {
+    const audio = this.audio;
+    const { lyric } = this.state;
+
+    const currentTime = Math.round(audio.currentTime);
+
+    if (lyric[currentTime]) {
+      this.setState({
+        lyricTime: currentTime,
+      });
+    }
+
+    // 歌词面板滑动距离
+    let i = 0;
+    for (let time in lyric) {
+      if (Number(time) === currentTime && this.lyric) {
+        const lyricPanelHeight = this.lyric.offsetHeight;
+        const top = i * lyricHeight;
+        const doScroll = top >= (lyricPanelHeight / 2 - lyricHeight);
+
+        if (doScroll) {
+          this.lyric.scrollTop = top - (lyricPanelHeight / 2 - lyricHeight);
+        }
+      }
+
+      i += 1;
+    }
+
+    // 进度条变化
+    const percent = audio.currentTime / audio.duration;
+    this.progressBar.style.width = `${Number(percent).toFixed(4) * 100}%`;
+  }
+
+ // 切换播放模式
+  handleMode = () => {
+    const { mode } = this.state;
+
+    this.setState({
+      mode: mode === 0 ? (mode + 1) : 0,
+    });
+  }
+
+  // 监听一首歌曲播放完毕
+  handleEneded = () => {
+    const { mode } = this.state;
+
+    // 列表循环
+    if (mode === 0) {
+      this.handlePlayNext();
+    } else {
+      // 单曲循环
+      this.handleInit();
+      this.audio.play();
+    }
+  }
+
+  // 静音切换
+  handleMuted = () => {
+    const { muted } = this.state;
+
+    this.setState({
+      muted: !muted,
+    });
+  }
+
   render() {
     const { style, songList, playerStyle, playerContentStyle, autoPlay } = this.props;
-    const { index, current, status, showPanel, showLyric, lyric } = this.state;
+    const { index, current, status, showPanel, showLyric, lyric, lyricTime, mode, volume, muted } = this.state;
 
     const styles = {
       rootStyle: {...wrapperStyle, ...style},
@@ -280,6 +372,33 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
         borderTop: '1px #f0f0f0 solid',
         overflowY: 'scroll',
       },
+      progressWrapper: {
+        position: 'relative',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+      },
+      progress: {
+        position: 'relative',
+        height: '8px',
+        backgroundColor: '#f0f0f0',
+        borderRadius: '2px',
+      },
+      progressBar: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        backgroundColor: 'rgb(244, 143, 177)',
+      },
+      progressBtn: {
+        position: 'absolute',
+        top: '-2px',
+        bottom: '-2px',
+        right: '-8px',
+        width: '16px',
+        backgroundColor: 'rgb(0, 188, 212)',
+        borderRadius: '2px',
+      },
     };
 
     const songListView = songList.length > 0 && songList.map((song, i) => {
@@ -300,7 +419,7 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
     let lyricView = [];
     for (let time in lyric) {
       lyricView.push(
-        <div key={time}>{lyric[time]}</div>
+        <div key={time} style={{ height: lyricHeight, color: (Number(time) === lyricTime ? styles.color.activeColor : styles.color.defaultColor ) }}>{lyric[time]}</div>
       );
     }
 
@@ -316,33 +435,54 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
                 <div style={styles.name}>{current.name}</div>
                 <div style={styles.singer}>{current.singer}</div>
               </header>
+              <div style={styles.progressWrapper}>
+                <div style={styles.progress}>
+                  <div style={styles.progressBar} ref={r => this.progressBar = r}>
+                    <div style={styles.progressBtn} className="h-cursor-pointer"></div>
+                  </div>
+                </div>
+              </div>
               <section style={styles.controler}>
-                <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayPrev}>
+                <IconButton style={styles.controlerBtn} onTouchTap={this.handleMuted}>
+                  {
+                    muted ?
+                    <Icon type={require('icons/actions/volume_off.svg')} size="24px" /> :
+                    <Icon type={require('icons/actions/volume_up.svg')} size="24px" />
+                  }
+                </IconButton>
+                <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayPrev} title="上一首">
                   <Icon type={require('icons/actions/skip_previous.svg')} size="32px" />
                 </IconButton>
-                <IconButton style={styles.controlerBtn}>
+                <IconButton style={styles.controlerBtn} title={status === 0 ? "播放" : "暂停"}>
                   {status === 0 ?
                     <Icon type={require('icons/actions/play_arrow.svg')} size="36px" onClick={this.handlePlay} /> :
                     <Icon type={require('icons/actions/pause.svg')} size="36px" onClick={this.handlePause} />
                   }
                 </IconButton>
-                <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayNext}>
+                <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayNext} title="下一首">
                   <Icon type={require('icons/actions/skip_next.svg')} size="32px" />
+                </IconButton>
+                <IconButton style={styles.controlerBtn} onTouchTap={this.handleMode} title={mode === 0 ? "循环播放" : "单曲循环"}>
+                  {
+                    mode === 0 ?
+                    <Icon type={require('icons/actions/loop.svg')} size="24px" /> :
+                    <Icon type={require('icons/actions/repeat_one.svg')} size="24px" />
+                  }
                 </IconButton>
               </section>
             </section>
 
             <div style={styles.panelBtn}>
-              <IconButton onTouchTap={this.handleToggleLyric}>
+              <IconButton onTouchTap={this.handleToggleLyric} title="歌词">
                 <Icon type={require('icons/actions/queue_music.svg')}  color={showLyric ? styles.color.activeColor : styles.color.defaultColor}/>
               </IconButton>
-              <IconButton onTouchTap={this.handleTogglePanel}>
+              <IconButton onTouchTap={this.handleTogglePanel} title="歌单">
                 <Icon type={require('icons/actions/playlist_play.svg')}  color={showPanel ? styles.color.activeColor : styles.color.defaultColor}/>
               </IconButton>
             </div>
           </section>
           {showLyric &&
-            <article style={styles.lyricPanel}>
+            <article style={styles.lyricPanel} ref={r => this.lyric = r}>
               {lyricView}
             </article>
           }
@@ -353,6 +493,9 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
           src={current.audio}
           autoPlay={autoPlay}
           onCanPlay={this.handleCanPlay}
+          onTimeUpdate={this.handleTimeUpdate}
+          onEnded={this.handleEneded}
+          muted={muted}
         />
       </div>
     );
