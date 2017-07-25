@@ -453,10 +453,10 @@ class WidgetMusicPlayer extends React.PureComponent { // eslint-disable-line rea
                 <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayPrev} title="上一首">
                   <Icon type={require('icons/actions/skip_previous.svg')} size="32px" />
                 </IconButton>
-                <IconButton style={styles.controlerBtn} title={status === 0 ? "播放" : "暂停"}>
+                <IconButton style={styles.controlerBtn} title={status === 0 ? "播放" : "暂停"} onTouchTap={status === 0 ? this.handlePlay : this.handlePause}>
                   {status === 0 ?
-                    <Icon type={require('icons/actions/play_arrow.svg')} size="36px" onClick={this.handlePlay} /> :
-                    <Icon type={require('icons/actions/pause.svg')} size="36px" onClick={this.handlePause} />
+                    <Icon type={require('icons/actions/play_arrow.svg')} size="36px" /> :
+                    <Icon type={require('icons/actions/pause.svg')} size="36px" />
                   }
                 </IconButton>
                 <IconButton style={styles.controlerBtn} onTouchTap={this.handlePlayNext} title="下一首">
