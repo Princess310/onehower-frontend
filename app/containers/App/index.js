@@ -14,25 +14,26 @@
 import React from 'react';
 import Grid from 'components/Grid';
 import Gallery from 'components/Gallery';
+import withProgressBar from 'components/ProgressBar';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
-export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-
-  static propTypes = {
-    children: React.PropTypes.node,
-  };
-
-  render() {
-    return (
-      <MuiThemeProvider>
-        <div>
-          {React.Children.toArray(this.props.children)}
-          <Gallery />
-          <Grid />
-        </div>
-      </MuiThemeProvider>
-    );
-  }
+function App(props) {
+  return (
+    <MuiThemeProvider>
+      <div>
+        {React.Children.toArray(props.children)}
+        <Gallery />
+        <Grid />
+      </div>
+    </MuiThemeProvider>
+  );
 }
+
+App.propTypes = {
+  children: React.PropTypes.node,
+};
+
+export default withProgressBar(App);
