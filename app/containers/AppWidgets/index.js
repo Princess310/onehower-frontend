@@ -25,6 +25,8 @@ import pallete from 'styles/colors';
 const widgetStyle = {
   position: 'relative',
   width: '240px',
+  marginRight: '15px',
+  marginBottom: '15px',
 };
 export class AppWidgets extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -38,6 +40,14 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
           desc: 'One music player of react build',
           version: '1.0.0',
           path: 'musicPlayer',
+          github: '',
+        },
+        {
+          name: 'onehower - Palette',
+          thumbnail: 'http://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/paintroller-01_1x.png',
+          desc: 'Drawing board',
+          version: '1.0.0',
+          path: 'drawer',
           github: '',
         }
       ],
@@ -62,7 +72,7 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
                   {list.length > 0 && list.map((widget, i) => (
                     <Card
                       key={i}
-                      style={ matches ? {...widgetStyle, width: '100%' } : widgetStyle }
+                      style={ matches ? {...widgetStyle, width: '100%', marginRight: 0 } : widgetStyle }
                       className="h-cursor-pointer"
                       onTouchTap={() => {
                         browserHistory.push(widget.path);
