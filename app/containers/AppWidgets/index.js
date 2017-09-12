@@ -49,6 +49,14 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
           version: '1.0.0',
           path: 'drawer',
           github: '',
+        },
+        {
+          name: 'onehower - Lucky Time',
+          thumbnail: 'http://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/clover.jpg',
+          desc: 'Lucky Time',
+          version: '1.0.0',
+          path: 'lucky',
+          github: '',
         }
       ],
     };
