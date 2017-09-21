@@ -11,7 +11,6 @@ import pallete from 'styles/colors';
 import SubHeader from 'components/Header/SubHeader';
 import AppContent from 'components/AppContent';
 import Footer from 'components/Footer';
-import FlexCenter from 'components/FlexCenter';
 
 import LotteryWheel from './LotteryWheel';
 
@@ -21,9 +20,7 @@ export class LuckyTimePage extends React.PureComponent { // eslint-disable-line 
       <div>
         <SubHeader title="Lucky Time"/>
         <AppContent>
-          <FlexCenter>
-            <LotteryWheel />
-          </FlexCenter>
+          <LotteryWheel />
         </AppContent>
         <Footer />
       </div>

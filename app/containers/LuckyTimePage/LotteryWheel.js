@@ -333,9 +333,9 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
     return (
       <div>
-        <RaisedButton label="Edit" primary={true} style={{ marginLeft: '24px' }} onClick={this.handleOpen} />
-          <FlexRowContentCenter style={{ position: 'relative' }}>
-          <div ref={r => this.container = r} style={{ width: '400px', height: '400px' }}>
+        <RaisedButton label="Edit" primary={true} style={{ marginTop: '24px', marginLeft: '24px' }} onClick={this.handleOpen} />
+        <FlexRowContentCenter style={{ position: 'relative' }}>
+          <div ref={r => this.container = r} style={{ width: '360px', height: '360px' }}>
             <canvas ref={r => this.canvas = r}></canvas>
           </div>
           <BtnWrapper>
