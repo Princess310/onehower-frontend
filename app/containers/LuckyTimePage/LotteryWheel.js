@@ -213,8 +213,8 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
     } else if (FETCH_STATUS === 'fetched') {
       // 当 当前时间 大于 总时间，停止旋转，并返回当前值
       if (spinningTime >= spinTotalTime) {
-        console.log('value', this.getValue());
-        this.setState({ openResult: true });
+        const result = this.getValue();
+        this.setState({ openResult: true, result: result.name });
 
         spinningTime = 20;
         checkFlag = false;
@@ -252,7 +252,6 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
       result = awards[radamIndex];
       FETCH_STATUS = 'fetched';
       spinningTime = 0;
-      this.setState({ result: result.name });
       // console.log('模拟后台获取结果得:' + result.name);
     }, 1000);
   }
