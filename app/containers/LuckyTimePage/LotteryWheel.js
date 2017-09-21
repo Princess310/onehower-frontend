@@ -9,14 +9,19 @@ import styled from 'styled-components';
 
 import { easeOut, easeIn } from 'utils/utils';
 import ImagePreloader from 'utils/ImagePreloader';
+import pallete from 'styles/colors';
 
-import eatImg from 'assets/images/eat.png';
-import healthImg from 'assets/images/health.png';
-import loverImg from 'assets/images/lover.png';
-import luckyImg from 'assets/images/lucky.png';
 import pointerImg from 'assets/images/pointer.png';
 
 import FlexRowContentCenter from 'components/FlexRowContentCenter';
+import Icon from 'components/Icon';
+
+import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
+import { List, ListItem } from 'material-ui/List';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 const BtnWrapper = styled.div`
   position: absolute;
@@ -30,10 +35,14 @@ const BtnWrapper = styled.div`
 `;
 
 const Button = styled.div`
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  color: #ffffff;
+  text-align: center;
+  line-height: 3.2rem;
   background-image: url(${pointerImg});
   background-size: contain;
+  background-position: center;
 `;
 
 // -------------- config params --------------//
@@ -43,41 +52,13 @@ let   RADIUAS = 270,           // 转盘的半径
       TEXT_RADIUAS = 180,      // 转盘内文字的半径
       DOT_RADIUAS = 255,        // 小点半径
 
-      awards = [               // 转盘内的奖品个数以及内容
-        {
-          index: 0,
-          name: '吃好吃的',
-          img: eatImg,
-        }, {
-          index: 1,
-          name: '健身',
-          img: healthImg,
-        }, {
-          index: 2,
-          name: '我们相爱吧',
-          img: loverImg,
-        }, {
-          index: 3,
-          name: '保持微笑',
-          img: luckyImg,
-        }
-    ],
-
       startRadian = 0,                             // 绘制奖项的起始角，改变该值实现旋转效果
-      awardRadian = (Math.PI * 2) / awards.length, // 每一个奖项所占的弧度
 
       duration = 4000,     // 旋转事件
       velocity = 10,       // 旋转速率
       spinningTime = 0,    // 旋转当前时间
       dotCount = 18,
-      dotRadian = (Math.PI * 2) / dotCount,
-      color = {
-        red: '#fe6869',
-        lightRed: '#ff9190',
-        deepRed: '#ff5c5d',
-        yellow: '#fbf087',
-        white: '#ffffff',
-      };
+      dotRadian = (Math.PI * 2) / dotCount;
 
   let spinTotalTime,       // 旋转时间总长
       spinningChange,      // 旋转变化值的峰值
@@ -86,7 +67,6 @@ let   RADIUAS = 270,           // 转盘的半径
       FETCH_STATUS = 'static',
       result = {
         name: '我们相爱吧',
-        img: loverImg
       };
 
   // 旋转判断辅助参数
@@ -98,6 +78,33 @@ let   RADIUAS = 270,           // 转盘的半径
 // -------------- /config params --------------//
 
 export class LotteryWheel extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {   
+    super(props);
+
+    this.state = {
+      awards: [               // 转盘内的奖品个数以及内容
+        {
+          index: 0,
+          name: '吃好吃的',
+        }, {
+          index: 1,
+          name: '健身',
+        }, {
+          index: 2,
+          name: '我们相爱吧',
+        }, {
+          index: 3,
+          name: '保持微笑',
+        }
+      ],
+      awardRadian: (Math.PI * 2) / 4, // 每一个奖项所占的弧度
+      open: false,
+      newItem: '',
+      result: '',
+      openResult: false,
+    };
+  }
+
   componentDidMount() {
     const container = this.container;
     const canvas = this.canvas;
@@ -117,29 +124,21 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
     CENTER_X = canvas.width / 2;
     CENTER_Y = canvas.height / 2;
 
-    // 预加载image先
-    const images = [];
-    for (let i = 0; i < awards.length; i ++) {
-      images.push(awards[i].img);
-    }
-
-    const self = this;
-    ImagePreloader(images).then((res) => {
-      self.images = res;
-      self.drawRouletteWheel();
-    });
+    this.drawRouletteWheel();
   }
 
   drawRouletteWheel = () => {
     const canvas = this.canvas;
     const context = this.context;
+    const awards = this.state.awards;
+    const awardRadian = this.state.awardRadian;
 
     // clear canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
     // draw the background circle first
     context.save();
     context.beginPath();
-    context.fillStyle = color.deepRed;
+    context.fillStyle = pallete.primary;
     context.arc(canvas.width / 2, canvas.height / 2, RADIUAS, 0, Math.PI * 2, false);
     context.fill();
     context.restore();
@@ -152,8 +151,8 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
           CENTER_Y + Math.sin(radian + dotRadian / 2) * DOT_RADIUAS
       );
 
-      if (i % 2 === 0) context.fillStyle = color.white;
-      else             context.fillStyle = color.yellow;
+      if (i % 2 === 0) context.fillStyle = pallete.white;
+      else             context.fillStyle = pallete.secondary;
       context.beginPath();
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
@@ -166,8 +165,8 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
       // 绘制圆盘
       context.save();
-      if (i % 2 === 0) context.fillStyle = color.lightRed
-      else             context.fillStyle = color.red;
+      if (i % 2 === 0) context.fillStyle = '#4DD0E1'
+      else             context.fillStyle = '#B2EBF2';
       context.beginPath();
       context.arc(canvas.width / 2, canvas.height / 2, OUTSIDE_RADIUAS, _startRadian, _endRadian, false);
       context.lineTo(canvas.width / 2, canvas.height / 2);
@@ -187,7 +186,6 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
       context.rotate(_startRadian + awardRadian / 2 + Math.PI / 2);
       context.fillText(awards[i].name, -context.measureText(awards[i].name).width / 2, 0);
 
-      context.drawImage(this.images[i], -40, 0, 80, 60);
       context.restore();
       // -----
     }
@@ -195,7 +193,7 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
   getValue = () => {
     let startAngle = startRadian * 180 / Math.PI,       // 弧度转换为角度
-      awardAngle = awardRadian * 180 / Math.PI,
+      awardAngle = this.state.awardRadian * 180 / Math.PI,
 
       pointerAngle = 90,                              // 指针所指向区域的度数，该值控制选取哪个角度的值
       overAngle = (startAngle + pointerAngle) % 360,  // 无论转盘旋转了多少圈，产生了多大的任意角，我们只需要求到当前位置起始角在360°范围内的角度值
@@ -203,7 +201,7 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
       index = Math.floor(restAngle / awardAngle);     // 剩下的角度值 除以 每一个奖品的角度值，就能得到这是第几个奖品
 
-    return awards[index];
+    return this.state.awards[index];
   }
 
   rotateWheel = () => {
@@ -216,6 +214,8 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
       // 当 当前时间 大于 总时间，停止旋转，并返回当前值
       if (spinningTime >= spinTotalTime) {
         console.log('value', this.getValue());
+        this.setState({ openResult: true });
+
         spinningTime = 20;
         checkFlag = false;
         FETCH_STATUS = 'static';
@@ -225,7 +225,7 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
       if (!checkFlag) {
         const value = this.getValue();
-        const rangeRadian = 5 * 2 * Math.PI + (value.index - result.index) * awardRadian;
+        const rangeRadian = 5 * 2 * Math.PI + (value.index - result.index) * this.state.awardRadian;
         resultRadian = rangeRadian;
       }
 
@@ -246,12 +246,14 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
   getBackendData = () => {
     FETCH_STATUS = 'fetching';
+    const awards = this.state.awards;
     setTimeout(() => {
       const radamIndex = parseInt(Math.random() * 10 % awards.length);
       result = awards[radamIndex];
       FETCH_STATUS = 'fetched';
       spinningTime = 0;
-      console.log('模拟后台获取结果得:' + result.name);
+      this.setState({ result: result.name });
+      // console.log('模拟后台获取结果得:' + result.name);
     }, 1000);
   }
 
@@ -269,16 +271,123 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
     this.getBackendData();
   }
 
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleOpenResult = () => {
+    this.setState({ openResult: true });
+  };
+
+  handleCloseResult = () => {
+    this.setState({ openResult: false, result: '' });
+  };
+
+  handleAddItem = () => {
+    const { newItem, awards } = this.state;
+
+    if (newItem === '') {
+      alert('The item name should not be empty~');
+    }
+
+    this.setState({
+      awards: [
+        ...awards,
+        {
+          index: awards.length,
+          name: newItem,
+        },
+      ],
+      newItem: '',
+      awardRadian: (Math.PI * 2) / (awards.length + 1), // 每一个奖项所占的弧度
+    }, () => {
+      this.drawRouletteWheel();
+    });
+  }
+
+  handleClear = (index) => {
+    const { awards } = this.state;
+
+    if (awards.length === 1) {
+      alert('Should leave one lucky item at least~');
+      return;
+    }
+
+    const newList = awards.filter((award, i) => (
+      i !== index
+    ));
+    this.setState({
+      awards: newList,
+      awardRadian: (Math.PI * 2) / newList.length, // 每一个奖项所占的弧度
+    }, () => {
+      this.drawRouletteWheel();
+    });
+  }
+
   render() {
+    const { awards, newItem, result } = this.state;
+
     return (
-      <FlexRowContentCenter style={{ position: 'relative' }}>
-        <div ref={r => this.container = r} style={{ width: '400px', height: '400px' }}>
-          <canvas ref={r => this.canvas = r}></canvas>
-        </div>
-        <BtnWrapper>
-          <Button onClick={this.handleAction}></Button>
-        </BtnWrapper>
-      </FlexRowContentCenter>
+      <div>
+        <RaisedButton label="Edit" primary={true} style={{ marginLeft: '24px' }} onClick={this.handleOpen} />
+          <FlexRowContentCenter style={{ position: 'relative' }}>
+          <div ref={r => this.container = r} style={{ width: '400px', height: '400px' }}>
+            <canvas ref={r => this.canvas = r}></canvas>
+          </div>
+          <BtnWrapper>
+            <Button onClick={this.handleAction}>Lucky~</Button>
+          </BtnWrapper>
+        </FlexRowContentCenter>
+
+        <FlexRowContentCenter style={{ marginTop: '24px', color: 'rgba(0, 0, 0, 0.54)' }}>
+          Click the lucky pointer to rotate the Lucky wheel~
+        </FlexRowContentCenter>
+
+        <Dialog
+          title="Edit lucky list"
+          actions={[
+            <RaisedButton label="CLOSE" primary={true} onClick={this.handleClose} />
+          ]}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          <List>
+            {awards.map((award, i) => (
+              <ListItem key={i} primaryText={award.name} rightIconButton={
+                <IconButton onTouchTap={() => {
+                  this.handleClear(i);
+                }}>
+                  <Icon type={require('icons/actions/clear.svg')} color={pallete.secondary} />
+                </IconButton>
+              }/>
+            ))}
+          </List>
+          <TextField
+            hintText="Add new lucky item"
+            value={newItem}
+            onChange={(e, v) => {
+              this.setState({
+                newItem: v,
+              });
+            }}
+          />
+          <FlatButton label="Add" primary={true} onClick={this.handleAddItem} />
+        </Dialog>
+
+        <Dialog
+          title="Lucky result"
+          modal={false}
+          open={this.state.openResult}
+          onRequestClose={this.handleCloseResult}
+        >
+            {result}
+        </Dialog>
+      </div>
     );
   }
 }
