@@ -291,6 +291,7 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
 
     if (newItem === '') {
       alert('The item name should not be empty~');
+      return;
     }
 
     this.setState({

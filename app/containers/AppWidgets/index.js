@@ -36,7 +36,7 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
       list: [
         {
           name: 'onehower - Music',
-          thumbnail: 'http://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/07.jpg',
+          thumbnail: 'https://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/07.jpg',
           desc: 'One music player of react build',
           version: '1.0.0',
           path: 'musicPlayer',
@@ -44,7 +44,7 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
         },
         {
           name: 'onehower - Palette',
-          thumbnail: 'http://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/paintroller-01_1x.png',
+          thumbnail: 'https://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/paintroller-01_1x.png',
           desc: 'Drawing board',
           version: '1.0.0',
           path: 'drawer',
@@ -52,7 +52,7 @@ export class AppWidgets extends React.PureComponent { // eslint-disable-line rea
         },
         {
           name: 'onehower - Lucky Time',
-          thumbnail: 'http://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/clover.jpg',
+          thumbnail: 'https://onehower.oss-cn-shenzhen.aliyuncs.com/images/widgets/clover.jpg',
           desc: 'Lucky Time',
           version: '1.0.0',
           path: 'lucky',
