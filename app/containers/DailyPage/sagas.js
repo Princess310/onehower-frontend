@@ -19,9 +19,10 @@ export function* fetchMomentList(action) {
       yield put(loadMomentListLoading(true));
     }
     const res = yield request.doGet('moment/list');
+    const { result: { list } } = res;
 
     // just response list for now
-    yield put(loadMomentList(res));
+    yield put(loadMomentList(list));
   } catch (err) {
     // console.log(err);
   }

@@ -10,7 +10,7 @@ import Helmet from 'react-helmet';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import Media from 'react-media';
-import { formatBackDate } from 'utils/date';
+import date from 'utils/date';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -111,7 +111,7 @@ export class CommentPage extends React.PureComponent { // eslint-disable-line re
                       <Card key={m.id}>
                         <CardHeader
                           title={m.username}
-                          subtitle={formatBackDate(m.ctime)}
+                          subtitle={date.format(m.createdAt, 'YYYY-MM-DD')}
                           avatar={m.avatar}
                         />
                         <CardText>

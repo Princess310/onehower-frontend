@@ -31,8 +31,9 @@ export class MusicPlayer extends React.PureComponent { // eslint-disable-line re
 
     request.doGet('song/list')
       .then((res) => {
+        const { result: { list } } = res;
         self.setState({
-          list: res,
+          list,
         });
       });
   }

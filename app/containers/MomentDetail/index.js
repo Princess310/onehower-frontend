@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
-import { formatBackDate } from 'utils/date';
+import date from 'utils/date';
 
 import Helmet from 'react-helmet';
 import AppContent from 'components/AppContent';
@@ -72,7 +72,7 @@ export class MomentDetail extends React.PureComponent { // eslint-disable-line r
               {moment.article}
               <CardHeader
                 title={moment.content}
-                subtitle={formatBackDate(moment.ctime)}
+                subtitle={date.format(moment.createdAt, 'YYYY-MM-DD')}
                 textStyle={{
                   paddingRight: 0,
                 }}

@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 import Media from 'react-media';
 import { browserHistory } from 'react-router';
-import { formatBackDate } from 'utils/date';
+import date from 'utils/date';
 import FlexRowCenter from 'components/FlexRowCenter';
 
 import PhotoSwipe from 'photoswipe';
@@ -132,7 +132,7 @@ class MomentCard extends React.PureComponent { // eslint-disable-line react/pref
       <Card style={{ marginBottom: '8px' }}>
         <CardHeader
           title={moment.content}
-          subtitle={formatBackDate(moment.ctime)}
+          subtitle={date.format(moment.createdAt, 'YYYY-MM-DD')}
           textStyle={{
             paddingRight: 0,
           }}

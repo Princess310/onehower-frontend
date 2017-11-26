@@ -11,10 +11,6 @@ function zeroFull(str) {
   return str >= 10 ? str : `0${str}`;
 }
 
-export function formatBackDate(dateObj) {
-  return `${dateObj.year}-${dateObj.monthValue}-${dateObj.dayOfMonth}`;
-}
-
 const dateUtil = {
   /**
   * [format 时间戳格式化]
