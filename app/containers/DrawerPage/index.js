@@ -58,6 +58,10 @@ export class DrawerPage extends React.PureComponent { // eslint-disable-line rea
     this.ctx = canvas.getContext('2d');
   }
 
+  componentWillUnmount() {
+    this.handleClear();
+  }
+
   henldeTool = (e, value) => {
     this.setState({
       tool: value,

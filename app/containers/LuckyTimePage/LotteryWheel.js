@@ -22,6 +22,7 @@ import { List, ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
+import Snackbar from 'material-ui/Snackbar';
 
 const BtnWrapper = styled.div`
   position: absolute;
@@ -102,6 +103,8 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
       newItem: '',
       result: '',
       openResult: false,
+      openSnackbar: false,
+      message: 'Hello - Lucky',
     };
   }
 
@@ -286,11 +289,20 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
     this.setState({ openResult: false, result: '' });
   };
 
+  handleRequestClose = () => {
+    this.setState({
+      openSnackbar: false,
+    });
+  }
+
   handleAddItem = () => {
     const { newItem, awards } = this.state;
 
     if (newItem === '') {
-      alert('The item name should not be empty~');
+      this.setState({
+        openSnackbar: true,
+        message: 'The item name should not be empty~',
+      });
       return;
     }
 
@@ -313,7 +325,10 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
     const { awards } = this.state;
 
     if (awards.length === 1) {
-      alert('Should leave one lucky item at least~');
+      this.setState({
+        openSnackbar: true,
+        message: 'Should leave one lucky item at least~',
+      });
       return;
     }
 
@@ -329,7 +344,7 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
   }
 
   render() {
-    const { awards, newItem, result } = this.state;
+    const { awards, newItem, result, openSnackbar, message } = this.state;
 
     return (
       <div>
@@ -346,6 +361,13 @@ export class LotteryWheel extends React.PureComponent { // eslint-disable-line r
         <FlexRowContentCenter style={{ marginTop: '24px', color: 'rgba(0, 0, 0, 0.54)' }}>
           Click the lucky pointer to rotate the Lucky wheel~
         </FlexRowContentCenter>
+
+        <Snackbar
+          open={openSnackbar}
+          message={message}
+          autoHideDuration={4000}
+          onRequestClose={this.handleRequestClose}
+        />
 
         <Dialog
           title="Edit lucky list"
